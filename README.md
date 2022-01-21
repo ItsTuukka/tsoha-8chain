@@ -5,4 +5,4 @@ Sovelluksessa näkyy keskustelualueita, joista jokaisella on tietty aihe. Alueil
 Sovelluksen ominaisuuksia: (työn alla)
 
 
-Sovellus on testattavissa [Herokussa](https://tsoha-8chain.herokuapp.com/)
+Sovellus on testattavissa [Herokussa](https://tsoha-8chain.herokuapp.com/).
