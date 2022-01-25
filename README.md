@@ -8,4 +8,4 @@ Sovelluksen ominaisuuksia: (työn alla)
 
 Sovellus on testattavissa [Herokussa](https://tsoha-8chain.herokuapp.com/).
 
-**Sovellus on yksi Tietokantasovellus -kurssin esimerkki aihe ja sen perustana toimii materiaalista löytyvä esimerkkisovellus**
+**Sovellus on yksi Tietokantasovellus -kurssin esimerkkiaiheista ja sen perustana toimii materiaalista löytyvä esimerkkisovellus**
