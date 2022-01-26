@@ -1,24 +1,41 @@
 
 from app import app
 from flask import render_template, request, redirect
-import messages, users
+import messages, users, topics
+
+# @app.route("/")
+# def index():
+#     list = messages.get_list()
+#     return render_template("index.html", count=len(list), messages=list)
 
 @app.route("/")
 def index():
-    list = messages.get_list()
-    return render_template("index.html", count=len(list), messages=list)
+    list = topics.get_list()
+    return render_template("index.html", topics=list)
 
-@app.route("/new")
-def new():
-    return render_template("new.html")
+@app.route("/newtopic")
+def newtopic():
+    return render_template("newtopic.html")
 
-@app.route("/send", methods=["POST"])
-def send():
+@app.route("/newmessage")
+def newmessage():
+    return render_template("newmessage.html")
+
+@app.route("/sendtopic", methods=["POST"])
+def sentopic():
+    name = request.form["topicname"]
+    if topics.create_topic(name):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Aiheen luonti epäonnistui")
+
+@app.route("/sendmessage", methods=["POST"])
+def sendmessage():
     content = request.form["content"]
     if messages.send(content):
         return redirect("/")
     else:
-        return render_template("error.html", message="Viestin lähetys ei onnistunut")
+        return render_template("error.html", message="Viestin lähetys epäonnistui")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

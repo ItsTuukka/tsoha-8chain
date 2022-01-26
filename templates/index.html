@@ -1,18 +1,11 @@
-
-  
-Viestien määrä: {{ count }}
 <hr>
-{% for message in messages %}
-<i>Viesti:</i> {{ message[0] }}
-<p>
-<i>Lähettäjä:</i> {{ message[1] }}
-<p>
-<i>Aika:</i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+{% for topic in topics %}
+<i>Aihe:</i> <b>{{ topic[0] }}</b>
 <hr>
 {% endfor %}
 {% if session.user_id %}
 Olet kirjautunut sisään.
-<a href="/new">Lähetä viesti</a> | <a href="/logout">Kirjaudu ulos</a>
+<a href="/newtopic">Luo uusi aihe</a> | <a href="/logout">Kirjaudu ulos</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}
