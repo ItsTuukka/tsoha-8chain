@@ -1,0 +1,10 @@
+{% if count == 0 %}
+<p>Tälle aiheelle ei ole vielä ketjuja</p>
+{% else %}
+<hr>
+{% for chain in chains %}
+<i>Otsikko:</i> <b>{{ chain[1] }}</b>
+<hr>
+{% endfor %}
+{% endif %}
+<a href="/newchain">Luo uusi ketju</a>

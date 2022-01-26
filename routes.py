@@ -21,10 +21,14 @@ def newtopic():
 def newmessage():
     return render_template("newmessage.html")
 
+@app.route("/newchain")
+def newchain():
+    return render_template("newchain.html")
+
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
     list = chains.get_list(id)
-    return render_template("topicarea.html", topic_id=id)
+    return render_template("topicarea.html", count = len(list), chains=list)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
@@ -33,6 +37,14 @@ def sentopic():
         return redirect("/")
     else:
         return render_template("error.html", message="Aiheen luonti epäonnistui")
+
+@app.route("/sendchain", methods=["POST"])
+def sendchain():
+    name = request.form["chainname"]
+    if chains.create_chain(name):
+        return redirect("/")
+    else:
+        return render_template("error.html", message="Ketjun luonti epäonnistui")
 
 @app.route("/sendmessage", methods=["POST"])
 def sendmessage():
