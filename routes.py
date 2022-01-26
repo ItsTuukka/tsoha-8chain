@@ -1,7 +1,7 @@
 
 from app import app
 from flask import render_template, request, redirect
-import messages, users, topics
+import messages, users, topics, chains
 
 # @app.route("/")
 # def index():
@@ -20,6 +20,11 @@ def newtopic():
 @app.route("/newmessage")
 def newmessage():
     return render_template("newmessage.html")
+
+@app.route("/topicarea/<int:id>")
+def topicarea(id):
+    list = chains.get_list(id)
+    return render_template("topicarea.html", topic_id=id)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():

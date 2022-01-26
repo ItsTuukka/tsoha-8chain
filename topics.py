@@ -2,7 +2,7 @@ from db import db
 import users
 
 def get_list():
-    sql = "SELECT topicname FROM topics WHERE visible=TRUE"
+    sql = "SELECT id, topicname FROM topics WHERE visible=TRUE"
     result = db.session.execute(sql)
     return result.fetchall()
 
