@@ -3,7 +3,7 @@ from flask import session
 import users, topics, messages
 
 def get_list(t_id):
-    sql = "SELECT id, description, topic_id, user_id FROM chains WHERE topic_id=:t_id AND visible=TRUE"
+    sql = "SELECT C.id, C.description, U.username, C.created_at FROM chains C, users U WHERE topic_id=:t_id AND C.user_id=U.id AND C.visible=TRUE"
     result = db.session.execute(sql, {"t_id":t_id})
     return result.fetchall()
 
@@ -19,7 +19,7 @@ def create_chain(chainname, content):
     sql = "SELECT id FROM chains WHERE topic_id=:topic_id"
     result = db.session.execute(sql, {"topic_id":topic_id})
     id = result.fetchone()
-    set_chain_id(id[0])
+    set_chain_id(id)
     if messages.send(content):
         return True
     return False

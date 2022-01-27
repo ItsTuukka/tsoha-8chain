@@ -1,13 +1,19 @@
 {% if count == 0 %}
 <p>Tässä ketjussa ei ole vielä yhtään viestiä</p>
 {% else %}
+Viestien määrä: {{count}}
 <hr>
 {% for message in messages %}
-<i>Viesti:</i>{{ message[0] }}
-<br>
+<i>Viesti: </i> {{ message[0] }}
+<p>
+<i>Lähetäjä: </i> {{ message[1] }}
+<p>
+<i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <hr>
 {% endfor %}
 {% endif %}
 <a href="/newmessage">Lähetä uusi viesti</a>
-<br>
+<p>
+<a href="/topicarea/{{t_id}}">Takaisin</a>
+<p>
 <a href="/">Etusivulle</a>

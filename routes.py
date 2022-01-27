@@ -28,8 +28,9 @@ def topicarea(id):
 @app.route("/chainarea/<int:id>")
 def chainarea(id):
     chains.set_chain_id(id)
+    topic_id = topics.topic_id()
     list = messages.get_list(id)
-    return render_template("chainarea.html", count = len(list), messages=list)
+    return render_template("chainarea.html", count = len(list), messages=list, t_id=topic_id)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():

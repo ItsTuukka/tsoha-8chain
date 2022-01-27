@@ -4,11 +4,15 @@
 <hr>
 {% for chain in chains %}
 <i>Otsikko:</i> <b>{{ chain[1] }}</b>
-<br>
+<p>
+<i>Luonut: </i> {{ chain[2] }}
+<p>
+<i>Aika: </i> {{ chain[3].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
 <a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a>
 <hr>
 {% endfor %}
 {% endif %}
 <a href="/newchain">Luo uusi ketju</a>
-<br>
+<p>
 <a href="/">Etusivulle</a>
