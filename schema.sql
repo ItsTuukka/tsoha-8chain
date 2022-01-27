@@ -21,6 +21,7 @@ CREATE TABLE chains (
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY, 
     content TEXT, 
-    user_id INTEGER REFERENCES users, 
+    chain_id INTEGER REFERENCES chains,
+    user_id INTEGER REFERENCES users,
     sent_at TIMESTAMP, 
     visible BOOLEAN);

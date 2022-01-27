@@ -1,0 +1,13 @@
+{% if count == 0 %}
+<p>Tässä ketjussa ei ole vielä yhtään viestiä</p>
+{% else %}
+<hr>
+{% for message in messages %}
+<i>Viesti:</i>{{ message[0] }}
+<br>
+<hr>
+{% endfor %}
+{% endif %}
+<a href="/newmessage">Lähetä uusi viesti</a>
+<br>
+<a href="/">Etusivulle</a>

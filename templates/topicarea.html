@@ -4,6 +4,8 @@
 <hr>
 {% for chain in chains %}
 <i>Otsikko:</i> <b>{{ chain[1] }}</b>
+<br>
+<a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a>
 <hr>
 {% endfor %}
 {% endif %}

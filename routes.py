@@ -25,6 +25,12 @@ def topicarea(id):
     list = chains.get_list(id)
     return render_template("topicarea.html", count = len(list), chains=list)
 
+@app.route("/chainarea/<int:id>")
+def chainarea(id):
+    chains.set_chain_id(id)
+    list = messages.get_list(id)
+    return render_template("chainarea.html", count = len(list), messages=list)
+
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
     name = request.form["topicname"]
@@ -37,16 +43,18 @@ def sentopic():
 def sendchain():
     topic_id = topics.topic_id()
     name = request.form["chainname"]
-    if chains.create_chain(name):
+    content = request.form["msg"]
+    if chains.create_chain(name, content):
         return redirect(url_for("topicarea", id=topic_id))
     else:
         return render_template("error.html", message="Ketjun luonti epäonnistui")
 
 @app.route("/sendmessage", methods=["POST"])
 def sendmessage():
+    chain_id = chains.chain_id()
     content = request.form["content"]
     if messages.send(content):
-        return redirect("/")
+        return redirect(url_for("chainarea", id=chain_id))
     else:
         return render_template("error.html", message="Viestin lähetys epäonnistui")
 
