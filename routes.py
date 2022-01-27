@@ -22,14 +22,18 @@ def newchain():
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
     topics.set_topic_id(id)
-    list = chains.get_list(id)
+    print("kun mennään alueelle, topic id on", id)
+    list = chains.get_list()
     return render_template("topicarea.html", count = len(list), chains=list)
 
 @app.route("/chainarea/<int:id>")
 def chainarea(id):
+    print("vanha chain id kun mennään ketjualueelle", chains.chain_id())
     chains.set_chain_id(id)
+    print("vanha uusi id kun mennään ketjualueelle", chains.chain_id())
     topic_id = topics.topic_id()
-    list = messages.get_list(id)
+    print("topic id ketjualueella", topic_id)
+    list = messages.get_list()
     return render_template("chainarea.html", count = len(list), messages=list, t_id=topic_id)
 
 @app.route("/sendtopic", methods=["POST"])
@@ -43,6 +47,7 @@ def sentopic():
 @app.route("/sendchain", methods=["POST"])
 def sendchain():
     topic_id = topics.topic_id()
+    print("kun halutaan luoda uusi ketju, topic id on", topic_id)
     name = request.form["chainname"]
     content = request.form["msg"]
     if chains.create_chain(name, content):

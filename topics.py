@@ -10,6 +10,7 @@ def get_list():
 def create_topic(topicname):
     visible = True
     user_id = users.user_id()
+    print("user id kun halutaan luoda aihe", user_id)
     if user_id == 0:
         return False
     sql = "INSERT INTO topics (topicname, visible) VALUES (:topicname, :visible)"
@@ -21,6 +22,6 @@ def set_topic_id(id):
     session['topic_id'] = id
 
 def topic_id():
-    return session['topic_id']
+    return session.get("topic_id")
 
 
