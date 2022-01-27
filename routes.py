@@ -1,12 +1,6 @@
-
 from app import app
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, url_for
 import messages, users, topics, chains
-
-# @app.route("/")
-# def index():
-#     list = messages.get_list()
-#     return render_template("index.html", count=len(list), messages=list)
 
 @app.route("/")
 def index():
@@ -27,6 +21,7 @@ def newchain():
 
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
+    topics.set_topic_id(id)
     list = chains.get_list(id)
     return render_template("topicarea.html", count = len(list), chains=list)
 
@@ -40,9 +35,10 @@ def sentopic():
 
 @app.route("/sendchain", methods=["POST"])
 def sendchain():
+    topic_id = topics.topic_id()
     name = request.form["chainname"]
     if chains.create_chain(name):
-        return redirect("/")
+        return redirect(url_for("topicarea", id=topic_id))
     else:
         return render_template("error.html", message="Ketjun luonti epäonnistui")
 

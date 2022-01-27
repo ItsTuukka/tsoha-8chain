@@ -1,4 +1,5 @@
 from db import db
+from flask import session
 import users
 
 def get_list():
@@ -15,4 +16,11 @@ def create_topic(topicname):
     db.session.execute(sql, {"topicname":topicname, "visible":visible})
     db.session.commit()
     return True
+
+def set_topic_id(id):
+    session['topic_id'] = id
+
+def topic_id():
+    return session['topic_id']
+
 
