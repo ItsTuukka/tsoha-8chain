@@ -18,12 +18,11 @@ def login(username, password):
 def logout():
     del session["user_id"]
 
-def register(username, password, admin):
-    visible = True
+def register(username, password):
     hash_value = generate_password_hash(password)
     try:
-        sql = "INSERT INTO users (username,password,admin,visible) VALUES (:username,:password,:admin,:visible)"
-        db.session.execute(sql, {"username":username, "password":hash_value, "admin":admin, "visible":visible})
+        sql = "INSERT INTO users (username,password,admin,visible) VALUES (:username,:password,FALSE,TRUE)"
+        db.session.execute(sql, {"username":username, "password":hash_value})
         db.session.commit()
     except:
         return False
