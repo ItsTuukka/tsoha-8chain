@@ -22,15 +22,17 @@ def newchain():
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
     topics.set_topic_id(id)
+    header = topics.get_topic_name()
     list = chains.get_list()
-    return render_template("topicarea.html", count = len(list), chains=list)
+    return render_template("topicarea.html", count = len(list), chains=list, header=header)
 
 @app.route("/chainarea/<int:id>")
 def chainarea(id):
     chains.set_chain_id(id)
+    header = chains.get_chain_name()
     topic_id = topics.topic_id()
     list = messages.get_list()
-    return render_template("chainarea.html", count = len(list), messages=list, t_id=topic_id)
+    return render_template("chainarea.html", count = len(list), messages=list, t_id=topic_id, header=header)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():

@@ -3,7 +3,7 @@ from flask import session
 import users
 
 def get_list():
-    sql = "SELECT id, topicname, chains, messages FROM topics WHERE visible=TRUE"
+    sql = "SELECT id, topicname, chains, messages FROM topics WHERE visible=TRUE ORDER BY id"
     result = db.session.execute(sql)
     return result.fetchall()
 
@@ -27,6 +27,13 @@ def update_messages_count():
     sql = "UPDATE topics SET messages=messages+1 WHERE id=:t_id"
     db.session.execute(sql, {"t_id":t_id})
     db.session.commit()
+
+def get_topic_name():
+    t_id = topic_id()
+    sql = "SELECT topicname FROM topics WHERE id=:t_id"
+    result = db.session.execute(sql, {"t_id":t_id})
+    name = result.fetchone()
+    return name[0]
 
 def set_topic_id(id):
     session['topic_id'] = id

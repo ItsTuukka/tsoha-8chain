@@ -25,6 +25,13 @@ def create_chain(chainname, content):
         return True
     return False
 
+def get_chain_name():
+    c_id = chain_id()
+    sql = "SELECT description FROM chains WHERE id=:c_id"
+    result = db.session.execute(sql, {"c_id":c_id})
+    name = result.fetchone()
+    return name[0]
+
 def set_chain_id(id):
     session['chain_id'] = id
 
