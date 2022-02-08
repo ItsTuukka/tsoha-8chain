@@ -11,13 +11,13 @@ def index():
 def newtopic():
     return render_template("newtopic.html")
 
-@app.route("/newmessage")
-def newmessage():
-    return render_template("newmessage.html")
+@app.route("/newmessage/<int:id>")
+def newmessage(id):
+    return render_template("newmessage.html", chain_id=id)
 
-@app.route("/newchain")
-def newchain():
-    return render_template("newchain.html")
+@app.route("/newchain/<int:id>")
+def newchain(id):
+    return render_template("newchain.html", topic_id=id)
 
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
