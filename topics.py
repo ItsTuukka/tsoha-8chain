@@ -35,6 +35,11 @@ def get_topic_name():
     name = result.fetchone()
     return name[0]
 
+def validate_topic(name):
+    if not name or len(name) < 3 or len(name) > 100:
+        return False
+    return True
+
 def set_topic_id(id):
     session['topic_id'] = id
 

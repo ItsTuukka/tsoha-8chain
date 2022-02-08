@@ -1,7 +1,25 @@
-<form action="/sendtopic" method="post">
+<form action="/sendtopic" method="POST" onsubmit="return check(this)">
     Aihe: <br>
     <textarea name="topicname" rows="1" cols="30"></textarea>
     <br>
     <input type="submit" value="Lähetä">
     </form>
-    
+<br>
+<a href="/">Takaisin</a>
+<script>
+    function check(form) {
+        if (!form.topicname.value) {
+            alert("Aihe ei voi olla tyhjä")
+            return false
+        }
+        if (form.topicname.value.length < 3) {
+            alert("Aiheen täyyy olla vähintään 3 merkkiä pitkä")
+            return false
+        }
+        if (form.topicname.value.length > 100) {
+            alert("Aihe on liian pitkä")
+            return false
+        }
+        return true
+    }
+</script>

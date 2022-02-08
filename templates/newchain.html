@@ -1,4 +1,4 @@
-<form action="/sendchain" method="post">
+<form action="/sendchain" method="post" onsubmit="return check(this)">
     Otsikko: <br>
     <textarea name="chainname" rows="2" cols="30"></textarea>
     <p>
@@ -7,4 +7,33 @@
     <p>
     <input type="submit" value="Lähetä">
     </form>
-    
+
+    <script>
+        function check(form) {
+            if (!form.chainname.value) {
+                alert("Otsikko ei voi olla tyhjä")
+                return false
+            }
+            if (form.chainname.value.length < 3) {
+                alert("Otsikon täyyy olla vähintään 3 merkkiä pitkä")
+                return false
+            }
+            if (form.chainname.value.length > 100) {
+                alert("Otsikko on liian pitkä")
+                return false
+            }
+            if (!form.msg.value) {
+                alert("Aloitusviesti ei voi olla tyhjä")
+                return false
+            }
+            if (form.msg.value.length < 3) {
+                alert("Aloitusviestin täyyy olla vähintään 3 merkkiä pitkä")
+                return false
+            }
+            if (form.chainname.value.length > 5000) {
+                alert("Aloitusviesti on liian pitkä")
+                return false
+            }
+            return true
+        }
+    </script>

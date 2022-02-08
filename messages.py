@@ -24,3 +24,8 @@ def get_latest_message(topic_id):
     result = db.session.execute(sql, {"topic_id":topic_id})
     date = result.fetchone()
     return date[0]
+
+def validate_msg(content):
+    if not content or len(content) < 3 or len(content) > 5000:
+        return False
+    return True
