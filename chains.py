@@ -9,19 +9,19 @@ def get_list():
     return result.fetchall()
 
 def create_chain(chainname, content):
-    visible = True
     user_id = users.user_id()
     topic_id = topics.topic_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO chains (description, topic_id, user_id, created_at, visible) VALUES (:chainname, :topic_id, :user_id, NOW(), :visible)"
-    db.session.execute(sql, {"chainname":chainname, "topic_id":topic_id, "user_id":user_id, "visible":visible})
+    sql = "INSERT INTO chains (description, topic_id, user_id, created_at, visible) VALUES (:chainname, :topic_id, :user_id, NOW(), TRUE)"
+    db.session.execute(sql, {"chainname":chainname, "topic_id":topic_id, "user_id":user_id})
     db.session.commit()
     sql = "SELECT * FROM chains WHERE topic_id=:topic_id ORDER BY id DESC"
     result = db.session.execute(sql, {"topic_id":topic_id})
     id = result.fetchone()
     set_chain_id(id[0])
     if messages.send(content):
+        topics.update_chain_count()
         return True
     return False
 

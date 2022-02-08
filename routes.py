@@ -5,7 +5,7 @@ import messages, users, topics, chains
 @app.route("/")
 def index():
     list = topics.get_list()
-    return render_template("index.html", topics=list)
+    return render_template("index.html", topics=list, get_latest=messages.get_latest_message)
 
 @app.route("/newtopic")
 def newtopic():

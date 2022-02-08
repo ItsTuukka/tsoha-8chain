@@ -1,6 +1,5 @@
-from itertools import chain
 from db import db
-import users, chains
+import users, chains, topics
 
 def get_list():
     chain_id=chains.chain_id()
@@ -9,12 +8,19 @@ def get_list():
     return result.fetchall()
 
 def send(content):
-    visible = True
+    topic_id = topics.topic_id()
     user_id = users.user_id()
     chain_id = chains.chain_id()
     if user_id == 0:
         return False
-    sql = "INSERT INTO messages (content, chain_id, user_id, sent_at, visible) VALUES (:content, :chain_id, :user_id, NOW(), :visible)"
-    db.session.execute(sql, {"content":content, "chain_id":chain_id, "user_id":user_id, "visible":visible})
+    sql = "INSERT INTO messages (content, topic_id, chain_id, user_id, sent_at, visible) VALUES (:content, :topic_id, :chain_id, :user_id, NOW(), TRUE)"
+    db.session.execute(sql, {"content":content, "topic_id":topic_id, "chain_id":chain_id, "user_id":user_id})
     db.session.commit()
+    topics.update_messages_count()
     return True
+
+def get_latest_message(topic_id):
+    sql = "SELECT sent_at FROM messages WHERE topic_id=:topic_id AND visible=TRUE ORDER BY id DESC"
+    result = db.session.execute(sql, {"topic_id":topic_id})
+    date = result.fetchone()
+    return date[0]

@@ -7,7 +7,9 @@ CREATE TABLE users (
 
 CREATE TABLE topics (
     id SERIAL PRIMARY KEY, 
-    topicname TEXT UNIQUE, 
+    topicname TEXT UNIQUE,
+    chains INTEGER, 
+    messages INTEGER, 
     visible BOOLEAN);
 
 CREATE TABLE chains (
@@ -20,7 +22,8 @@ CREATE TABLE chains (
 
 CREATE TABLE messages (
     id SERIAL PRIMARY KEY, 
-    content TEXT, 
+    content TEXT,
+    topic_id INTEGER REFERENCES topics, 
     chain_id INTEGER REFERENCES chains,
     user_id INTEGER REFERENCES users,
     sent_at TIMESTAMP, 
