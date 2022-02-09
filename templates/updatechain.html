@@ -1,0 +1,24 @@
+<form action="/setupdatechain/{{id}}" method="post" onsubmit="return check(this)">
+Uusi otsikko: <br>
+<textarea name="chainname" rows="2" cols="30"></textarea>
+<p>
+<input type="submit" value="Muokkaa">
+</form>
+<a href="/topicarea/{{t_id}}">Takaisin</a>
+<script>
+    function check(form) {
+        if (!form.chainname.value) {
+            alert("Otsikko ei voi olla tyhjä")
+            return false
+        }
+        if (form.chainname.value.length < 3) {
+            alert("Otsikon täyyy olla vähintään 3 merkkiä pitkä")
+            return false
+        }
+        if (form.chainname.value.length > 100) {
+            alert("Otsikko on liian pitkä")
+            return false
+        }
+       return true
+        }
+</script>

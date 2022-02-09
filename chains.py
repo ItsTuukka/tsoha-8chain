@@ -1,10 +1,10 @@
 from db import db
 from flask import session
-import users, topics, messages, validate
+import users, topics, validate
 
 def get_list():
     t_id = topics.topic_id()
-    sql = "SELECT C.id, C.description, U.username, C.created_at FROM chains C, users U WHERE topic_id=:t_id AND C.user_id=U.id AND C.visible=TRUE"
+    sql = "SELECT C.id, C.description, U.username, C.created_at, C.user_id FROM chains C, users U WHERE topic_id=:t_id AND C.user_id=U.id AND C.visible=TRUE ORDER BY C.id"
     result = db.session.execute(sql, {"t_id":t_id})
     return result.fetchall()
 
@@ -35,6 +35,17 @@ def get_chain_name():
     result = db.session.execute(sql, {"c_id":c_id})
     name = result.fetchone()
     return name[0]
+
+def updatechain(newname, id):
+    if not validate.chain(newname):
+        return False
+    try:
+        sql = "UPDATE chains SET description=:newname WHERE id=:id"
+        db.session.execute(sql, {"newname":newname, "id":id})
+        db.session.commit()
+        return True
+    except:
+        return False
 
 def set_chain_id(id):
     session['chain_id'] = id

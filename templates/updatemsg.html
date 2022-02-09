@@ -1,0 +1,24 @@
+<form action="/setupdatemsg/{{id}}" method="post" onsubmit="return check(this)">
+Uusi viesti: <br>
+<textarea name="content" rows="3" cols="40"></textarea>
+<p>
+<input type="submit" value="Muokkaa">
+</form>
+<a href="/chainarea/{{c_id}}">Takaisin</a>
+<script>
+    function check(form) {
+        if (!form.content.value) {
+            alert("Viesti ei voi olla tyhjä")
+            return false
+        }
+        if (form.content.value.length < 3) {
+            alert("Viestin täyyy olla vähintään 3 merkkiä pitkä")
+            return false
+        }
+        if (form.content.value.length > 5000) {
+            alert("Viesti on liian pitkä")
+            return false
+        }
+       return true
+        }
+</script>

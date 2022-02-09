@@ -19,6 +19,16 @@ def newmessage(id):
 def newchain(id):
     return render_template("newchain.html", topic_id=id)
 
+@app.route("/updatechain/<int:id>")
+def updatechain(id):
+    topic_id = topics.topic_id()
+    return render_template("updatechain.html", id=id, t_id=topic_id)
+
+@app.route("/updatemsg/<int:id>")
+def updatemsg(id):
+    c_id = chains.chain_id()
+    return render_template("updatemsg.html", id=id, c_id=c_id)
+
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
     topics.set_topic_id(id)
@@ -64,6 +74,26 @@ def sendmessage():
         return redirect(url_for("chainarea", id=chain_id))
     flash("Viestin lähetys epäonnistui")
     return redirect(url_for("newmessage", id=chain_id))
+
+@app.route("/setupdatechain/<int:id>", methods=["POST"])
+def setupdatechain(id):
+    topic_id = topics.topic_id()
+    chainname = request.form["chainname"]
+    if chains.updatechain(chainname, id):
+        flash("Ketjun muokkaaminen onnistui")
+        return redirect(url_for("topicarea", id=topic_id))
+    flash("Ketjun muokkaaminen epäonnistui")
+    return redirect(url_for("updatechain", id=id))
+
+@app.route("/setupdatemsg/<int:id>", methods=["POST"])
+def setupdatemsg(id):
+    chain_id = chains.chain_id()
+    content = request.form["content"]
+    if messages.updatemsg(content, id):
+        flash("Viestin muokkaaminen onnistui")
+        return redirect(url_for("chainarea", id=chain_id))
+    flash("Viestin muokkaaminen epäonnistui")
+    return redirect(url_for("updatechain", id=id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

@@ -1,4 +1,13 @@
 <h2>Aihealue: {{ header }}</h2>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <strong>{{ message }}</strong> 
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 {% if count == 0 %}
 <p>Tälle aiheelle ei ole vielä ketjuja</p>
 {% else %}
@@ -10,7 +19,11 @@
 <p>
 <i>Luotu: </i> {{ chain[3].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
+{% if session.user_id == chain[4] %}
+<a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a> | <a href="/updatechain/{{chain[0]}}">Muokkaa</a>
+{% else %}
 <a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a>
+{% endif %}
 <hr>
 {% endfor %}
 {% endif %}

@@ -3,7 +3,7 @@ import users, chains, topics, validate
 
 def get_list():
     chain_id=chains.chain_id()
-    sql = "SELECT M.content, U.username, M.sent_at FROM messages M, users U WHERE M.user_id=U.id AND M.chain_id=:chain_id AND M.visible=TRUE ORDER BY M.id"
+    sql = "SELECT M.content, U.username, M.sent_at, M.user_id, M.id FROM messages M, users U WHERE M.user_id=U.id AND M.chain_id=:chain_id AND M.visible=TRUE ORDER BY M.id"
     result = db.session.execute(sql, {"chain_id":chain_id})
     return result.fetchall()
 
@@ -26,3 +26,14 @@ def get_latest_message(topic_id):
     result = db.session.execute(sql, {"topic_id":topic_id})
     date = result.fetchone()
     return date[0]
+
+def updatemsg(content, id):
+    if not validate.msg(content):
+        return False
+    try:
+        sql = "UPDATE messages SET content=:content WHERE id=:id"
+        db.session.execute(sql, {"content":content, "id":id})
+        db.session.commit()
+        return True
+    except:
+        return False
