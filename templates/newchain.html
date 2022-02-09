@@ -1,3 +1,13 @@
+<h3>Luo uusi ketju</h3>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <strong>{{ message }}</strong> 
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 <form action="/sendchain" method="post" onsubmit="return check(this)">
 Otsikko: <br>
 <textarea name="chainname" rows="2" cols="30"></textarea>

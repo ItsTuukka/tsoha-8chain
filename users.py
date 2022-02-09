@@ -1,6 +1,7 @@
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
+import validate
 
 def login(username, password):
     sql = "SELECT id, password FROM users WHERE username=:username AND visible=TRUE"
@@ -19,6 +20,8 @@ def logout():
     del session["user_id"]
 
 def register(username, password):
+    if not validate.username(username) or not validate.password(password):
+        return False
     hash_value = generate_password_hash(password)
     try:
         sql = "INSERT INTO users (username,password,admin,visible) VALUES (:username,:password,FALSE,TRUE)"

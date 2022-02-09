@@ -9,14 +9,18 @@
 {% endif %}
 {% endwith %}
 <form action="/register" method="post" onsubmit="return check(this)">
-    Tunnus: <input type="text" name="username">
-    <p>
-    Salasana: <input type="text" name="password1">
-    <p>
-    Salasana uudestaan: <input type="text" name="password2">
-    <p>
-    <input type="submit" value="Luo tunnus">
+Tunnus: <input type="text" name="username">
+<p>
+Salasana: <input type="text" name="password1">
+<p>
+Salasana uudestaan: <input type="text" name="password2">
+<p>
+<input type="submit" value="Luo tunnus">
 </form>
+<p>
+<a href="/login">Takaisin</a>
+<p>
+<a href="/">Etusivulle</a>
 <script>
     function check(form) {
         if (!form.username.value) {

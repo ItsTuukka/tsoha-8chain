@@ -1,10 +1,19 @@
+<h3>Luo uusi aihe</h3>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <strong>{{ message }}</strong> 
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 <form action="/sendtopic" method="POST" onsubmit="return check(this)">
-    Aihe: <br>
-    <textarea name="topicname" rows="1" cols="30"></textarea>
-    <br>
-    <input type="submit" value="Lähetä">
-    </form>
-<br>
+Aihe: <br>
+<textarea name="topicname" rows="1" cols="30"></textarea>
+<p>
+<input type="submit" value="Lähetä">
+</form>
 <a href="/">Takaisin</a>
 <script>
     function check(form) {

@@ -37,20 +37,24 @@ def chainarea(id):
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
     name = request.form["topicname"]
-    if validate.topic(name):
-        if topics.create_topic(name):
-            return redirect("/")
-    return render_template("error.html", message="Aiheen luonti epäonnistui")
+    if topics.create_topic(name):
+        return redirect("/")
+    flash("Aiheen luonti epäonnistui")
+    return redirect("/newtopic")
 
 @app.route("/sendchain", methods=["POST"])
 def sendchain():
     topic_id = topics.topic_id()
     name = request.form["chainname"]
     content = request.form["msg"]
-    if validate.chain(name):
-        if chains.create_chain(name, content):
+    if not validate.chain(name) or validate.msg(content): #täytyy tarkistaa jo tässä, ettei luo toista databaseen jos toinen ei ollekkaan validi
+        flash("Otsikko tai aloitusviesti virheellinen")
+        return redirect(url_for("newchain", id=topic_id))
+    if chains.create_chain(name):
+        if messages.send(content):
             return redirect(url_for("topicarea", id=topic_id))
-    return render_template("error.html", message="Ketjun luonti epäonnistui")
+    flash("Ketjun luonti epäonnistui")
+    return redirect(url_for("newchain", id=topic_id))
 
 @app.route("/sendmessage", methods=["POST"])
 def sendmessage():
@@ -58,8 +62,8 @@ def sendmessage():
     content = request.form["content"]
     if messages.send(content):
         return redirect(url_for("chainarea", id=chain_id))
-    else:
-        return render_template("error.html", message="Viestin lähetys epäonnistui")
+    flash("Viestin lähetys epäonnistui")
+    return redirect(url_for("newmessage", id=chain_id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -70,9 +74,8 @@ def login():
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        else:
-            flash("Väärä tunnus tai salasana")
-            return redirect("login")
+        flash("Väärä tunnus tai salasana")
+        return redirect("login")
 
 @app.route("/logout")
 def logout():
@@ -97,6 +100,5 @@ def register():
             return redirect("register")
         if users.register(username, password1):
             return redirect("/")
-        else:
-            flash("Rekisteröinti ei onnistunut")
-            return redirect("register")
+        flash("Rekisteröinti ei onnistunut")
+        return redirect("register")

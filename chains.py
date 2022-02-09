@@ -8,7 +8,9 @@ def get_list():
     result = db.session.execute(sql, {"t_id":t_id})
     return result.fetchall()
 
-def create_chain(chainname, content):
+def create_chain(chainname):
+    if not validate.chain(chainname):
+        return False
     user_id = users.user_id()
     topic_id = topics.topic_id()
     if user_id == 0:
@@ -16,15 +18,16 @@ def create_chain(chainname, content):
     sql = "INSERT INTO chains (description, topic_id, user_id, created_at, visible) VALUES (:chainname, :topic_id, :user_id, NOW(), TRUE)"
     db.session.execute(sql, {"chainname":chainname, "topic_id":topic_id, "user_id":user_id})
     db.session.commit()
+    id = latest_chain_id()
+    set_chain_id(id)
+    return True
+
+def latest_chain_id():
+    topic_id = topics.topic_id()
     sql = "SELECT * FROM chains WHERE topic_id=:topic_id ORDER BY id DESC"
     result = db.session.execute(sql, {"topic_id":topic_id})
     id = result.fetchone()
-    set_chain_id(id[0])
-    if validate.msg(content):
-        if messages.send(content):
-            topics.update_chain_count()
-            return True
-    return False
+    return id[0]
 
 def get_chain_name():
     c_id = chain_id()

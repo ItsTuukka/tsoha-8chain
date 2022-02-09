@@ -1,5 +1,5 @@
 from db import db
-import users, chains, topics
+import users, chains, topics, validate
 
 def get_list():
     chain_id=chains.chain_id()
@@ -8,6 +8,8 @@ def get_list():
     return result.fetchall()
 
 def send(content):
+    if not validate.msg(content):
+        return False
     topic_id = topics.topic_id()
     user_id = users.user_id()
     chain_id = chains.chain_id()

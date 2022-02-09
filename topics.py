@@ -1,6 +1,6 @@
 from db import db
 from flask import session
-import users
+import users, validate
 
 def get_list():
     sql = "SELECT id, topicname, chains, messages FROM topics WHERE visible=TRUE ORDER BY id"
@@ -8,6 +8,8 @@ def get_list():
     return result.fetchall()
 
 def create_topic(topicname):
+    if not validate.topic(topicname):
+        return False
     user_id = users.user_id()
     if user_id == 0:
         return False
