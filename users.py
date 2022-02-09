@@ -30,3 +30,12 @@ def register(username, password):
 
 def user_id():
     return session.get("user_id", 0)
+
+def get_usernames():
+    sql = "SELECT username from users WHERE visible = TRUE"
+    result = db.session.execute(sql)
+    userdata = result.fetchall()
+    users = []
+    for user in userdata:
+        users.append(user[0])
+    return users

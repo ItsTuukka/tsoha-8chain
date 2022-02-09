@@ -1,6 +1,6 @@
 from db import db
 from flask import session
-import users, topics, messages
+import users, topics, messages, validate
 
 def get_list():
     t_id = topics.topic_id()
@@ -20,7 +20,7 @@ def create_chain(chainname, content):
     result = db.session.execute(sql, {"topic_id":topic_id})
     id = result.fetchone()
     set_chain_id(id[0])
-    if messages.validate_msg(content):
+    if validate.msg(content):
         if messages.send(content):
             topics.update_chain_count()
             return True
@@ -32,11 +32,6 @@ def get_chain_name():
     result = db.session.execute(sql, {"c_id":c_id})
     name = result.fetchone()
     return name[0]
-
-def validate_chain(name):
-    if not name or len(name) < 3 or len(name) > 100:
-        return False
-    return True
 
 def set_chain_id(id):
     session['chain_id'] = id

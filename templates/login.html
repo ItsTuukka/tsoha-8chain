@@ -1,5 +1,13 @@
-
-  
+<h2>Kirjaudu sisään </h2>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <strong>{{ message }}</strong> 
+{% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
 <form action="/login" method="post">
 Tunnus: <input type="text" name="username">
 <p>

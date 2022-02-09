@@ -1,6 +1,6 @@
 from app import app
-from flask import render_template, request, redirect, url_for
-import messages, users, topics, chains
+from flask import render_template, request, redirect, url_for, flash
+import messages, users, topics, chains, validate
 
 @app.route("/")
 def index():
@@ -37,7 +37,7 @@ def chainarea(id):
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
     name = request.form["topicname"]
-    if topics.validate_topic(name):
+    if validate.topic(name):
         if topics.create_topic(name):
             return redirect("/")
     return render_template("error.html", message="Aiheen luonti epäonnistui")
@@ -47,7 +47,7 @@ def sendchain():
     topic_id = topics.topic_id()
     name = request.form["chainname"]
     content = request.form["msg"]
-    if chains.validate_chain(name):
+    if validate.chain(name):
         if chains.create_chain(name, content):
             return redirect(url_for("topicarea", id=topic_id))
     return render_template("error.html", message="Ketjun luonti epäonnistui")
@@ -71,7 +71,8 @@ def login():
         if users.login(username, password):
             return redirect("/")
         else:
-            return render_template("error.html", message="Väärä tunnus tai salasana")
+            flash("Väärä tunnus tai salasana")
+            return redirect("login")
 
 @app.route("/logout")
 def logout():
@@ -86,9 +87,16 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        usernames = users.get_usernames()
+        print(usernames)
         if password1 != password2:
-            return render_template("error.html", message="Salasanat eroavat")
+            flash("Salasanat eroavat")
+            return redirect("register")
+        if username in usernames:
+            flash("Käyttäjänimi on jo käytössä")
+            return redirect("register")
         if users.register(username, password1):
             return redirect("/")
         else:
-            return render_template("error.html", message="Rekisteröinti ei onnistunut")
+            flash("Rekisteröinti ei onnistunut")
+            return redirect("register")
