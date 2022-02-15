@@ -42,7 +42,8 @@ def chainarea(id):
     header = chains.get_chain_name()
     topic_id = topics.topic_id()
     list = messages.get_list()
-    return render_template("chainarea.html", count = len(list), messages=list, t_id=topic_id, header=header, chain_id=id)
+    return render_template("chainarea.html", count = len(list), messages=list, 
+    t_id=topic_id, header=header, chain_id=id, get_likes=messages.get_likes, add_like=messages.add_like)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():

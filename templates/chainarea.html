@@ -20,6 +20,11 @@ Viestien määrä: {{count}}
 <p>
 <i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
+<i>Tykkäykset: </i> {{ get_likes(message[4]) }}
+{% if session.user_id %}
+<button type="button" onclick="add_like(message[4])">I dig this!</button>
+{% endif %}
+<p>
 {% if session.user_id == message[3] %}
 <a href="/updatemsg/{{message[4]}}">Muokkaa</a>
 {% endif %}

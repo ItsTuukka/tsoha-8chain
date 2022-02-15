@@ -37,3 +37,15 @@ def updatemsg(content, id):
         return True
     except:
         return False
+
+def get_likes(msg_id):
+    sql = "SELECT COUNT (*) FROM likes WHERE message_id=:msg_id"
+    result = db.session.execute(sql, {"msg_id":msg_id})
+    likes = result.fetchone()
+    return likes[0]
+
+def add_like(msg_id):
+    print('pääsee funktioon')
+    sql = "INSERT INTO likes (message_id, user_id) VALUES (:msg_id, :user_id)"
+    db.session.execute(sql, {"msg_id":msg_id, "user_id":users.user_id()})
+    db.session.commit()

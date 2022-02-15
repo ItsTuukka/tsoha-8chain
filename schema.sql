@@ -28,3 +28,8 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users,
     sent_at TIMESTAMP, 
     visible BOOLEAN);
+
+CREATE TABLE likes (
+    message_id INTEGER REFERENCES messages, 
+    user_id INTEGER REFERENCES users
+)
