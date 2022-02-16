@@ -7,6 +7,18 @@ def index():
     list = topics.get_list()
     return render_template("index.html", topics=list, get_latest=messages.get_latest_message)
 
+@app.route("/like/<int:id>", methods=["POST"])
+def like(id):
+    chain_id=chains.chain_id()
+    messages.add_like(id)
+    return redirect(url_for("chainarea", id=chain_id))
+
+@app.route("/like", methods=["POST"])
+def like1():
+    if request.method == "POST":
+        id = request.json['data']
+        messages.add_like(id)
+
 @app.route("/newtopic")
 def newtopic():
     return render_template("newtopic.html")
@@ -43,7 +55,7 @@ def chainarea(id):
     topic_id = topics.topic_id()
     list = messages.get_list()
     return render_template("chainarea.html", count = len(list), messages=list, 
-    t_id=topic_id, header=header, chain_id=id, get_likes=messages.get_likes, add_like=messages.add_like)
+    t_id=topic_id, header=header, chain_id=id, get_likes=messages.get_likes)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
