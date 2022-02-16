@@ -13,10 +13,11 @@ def like(id):
     messages.add_like(id)
     return redirect(url_for("chainarea", id=chain_id))
 
-@app.route("/like", methods=["POST"])
+@app.route("/like1", methods=["POST"])
 def like1():
     if request.method == "POST":
         id = request.json['data']
+        print(id)
         messages.add_like(id)
 
 @app.route("/newtopic")
