@@ -81,7 +81,7 @@ def sendchain():
     topic_id = topics.topic_id()
     name = request.form["chainname"]
     content = request.form["msg"]
-    if not validate.chain(name) or validate.msg(content): #täytyy tarkistaa jo tässä, ettei luo toista databaseen jos toinen ei ollekkaan validi
+    if not validate.chain(name) or not validate.msg(content): #täytyy tarkistaa jo tässä, ettei luo toista databaseen jos toinen ei ollekkaan validi
         flash("Otsikko tai aloitusviesti virheellinen")
         return redirect(url_for("newchain", id=topic_id))
     if chains.create_chain(name):
