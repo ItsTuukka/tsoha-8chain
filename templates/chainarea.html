@@ -38,7 +38,7 @@ Viestien määrä: {{count}}
 <a href="/newmessage/{{chain_id}}">Lähetä uusi viesti</a>
 {% endif %}
 <p>
-<a href="/topicarea/{{t_id}}">Takaisin</a>
+<a href="/topicarea/{{t_id}}">Aihealueelle</a>
 <p>
 <a href="/">Etusivulle</a>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -46,7 +46,7 @@ Viestien määrä: {{count}}
     function addLike(id) {
         $.ajax({
             method: "POST",
-            url: "{{url_for('like1')}}",
+            url: "{{url_for('testlike')}}",
             contentType: 'application/json;charset=UTF-8',
             data: {'data':id}
         })

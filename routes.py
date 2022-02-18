@@ -13,12 +13,22 @@ def like(id):
     messages.add_like(id)
     return redirect(url_for("chainarea", id=chain_id))
 
-@app.route("/like1", methods=["POST"])
-def like1():
+@app.route("/testlike", methods=["POST"])
+def testlike():
     if request.method == "POST":
         id = request.json['data']
-        print(id)
         messages.add_like(id)
+        return('', 200)
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
+
+@app.route("/searchmessages", methods=["POST"])
+def searchmessages():
+    filter = request.form["filter"]
+    list = messages.get_filtered_messages(filter)
+    return render_template("filteredmessages.html", messages=list, count=len(list), get_likes=messages.get_likes)
 
 @app.route("/newtopic")
 def newtopic():

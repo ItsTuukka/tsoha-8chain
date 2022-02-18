@@ -1,0 +1,22 @@
+{% if count == 0 %}
+<p>Tällä hakusanalla ei löytynyt yhään viestiä</p>
+{% else %}
+Viestien määrä: {{count}}
+<hr>
+{% for message in messages %}
+<i>Viesti: </i> {{ message[0] }}
+<p>
+<i>Lähetäjä: </i> {{ message[1] }}
+<p>
+<i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+<i>Tykkäykset: </i> {{ get_likes(message[4]) }}
+<p>
+<a href="/chainarea/{{message[3]}}">Siirry ketjuun</a>
+<hr>
+{% endfor %}
+{% endif %}
+<p>
+<a href="/search">Takaisin</a>
+<p>
+<a href="/">Etusivulle</a>

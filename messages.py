@@ -48,3 +48,9 @@ def add_like(msg_id):
     sql = "INSERT INTO likes (message_id, user_id) VALUES (:msg_id, :user_id)"
     db.session.execute(sql, {"msg_id":msg_id, "user_id":users.user_id()})
     db.session.commit()
+
+def get_filtered_messages(filter):
+    print(filter)
+    sql = "SELECT M.content, U.username, M.sent_at, M.chain_id, M.id FROM messages M, users U WHERE M.content LIKE :filter AND M.user_id=U.id AND M.visible=TRUE ORDER BY M.id"
+    result = db.session.execute(sql, {"filter":"%"+filter+"%"})
+    return result.fetchall()

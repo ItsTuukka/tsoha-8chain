@@ -1,0 +1,24 @@
+<h2>Haku</h2>
+<form action="/searchmessages" method="post" onsubmit="return check(this)">
+    Hae viestejä hakusanalla: <br>
+    <textarea name="filter" rows="1" cols="20"></textarea>
+    <p>
+    <input type="submit" value="Hae">
+</form>
+<script>
+    function check(form) {
+        if (!form.filter.value) {
+            alert("Hakusana ei voi olla tyhjä")
+            return false
+        }
+        if (form.filter.value.length < 3) {
+            alert("Hakusanan täyyy olla vähintään 3 merkkiä pitkä")
+            return false
+        }
+        if (form.filter.value.length > 50) {
+            alert("Hakusana on liian pitkä")
+            return false
+        }
+        return true
+    }
+</script>
