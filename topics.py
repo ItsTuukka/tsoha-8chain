@@ -1,39 +1,35 @@
 from db import db
 from flask import session
-import users, validate
+import validate
 
 def get_list():
-    sql = "SELECT id, topicname, chains, messages FROM topics WHERE visible=TRUE ORDER BY id"
+    sql = "SELECT id, topicname FROM topics WHERE visible=TRUE ORDER BY id"
     result = db.session.execute(sql)
     return result.fetchall()
 
 def create_topic(topicname):
     if not validate.topic(topicname):
         return False
-    user_id = users.user_id()
-    if user_id == 0:
-        return False
-    sql = "INSERT INTO topics (topicname, chains, messages, visible) VALUES (:topicname, 0, 0, TRUE)"
+    sql = "INSERT INTO topics (topicname, visible) VALUES (:topicname, TRUE)"
     db.session.execute(sql, {"topicname":topicname})
     db.session.commit()
     return True
 
-def update_chain_count():
-    t_id = topic_id()
-    sql = "UPDATE topics SET chains=chains+1 WHERE id=:t_id"
-    db.session.execute(sql, {"t_id":t_id})
-    db.session.commit()
+def get_chain_count(id):
+    sql = "SELECT COUNT (*) FROM chains WHERE topic_id=:id and visible=TRUE"
+    result = db.session.execute(sql, {"id":id})
+    count = result.fetchone()
+    return count[0]
 
-def update_messages_count():
-    t_id = topic_id()
-    sql = "UPDATE topics SET messages=messages+1 WHERE id=:t_id"
-    db.session.execute(sql, {"t_id":t_id})
-    db.session.commit()
+def get_message_count(id):
+    sql = "SELECT COUNT (*) FROM messages WHERE topic_id=:id and visible=TRUE"
+    result = db.session.execute(sql, {"id":id})
+    count = result.fetchone()
+    return count[0]
 
 def get_topic_name():
-    t_id = topic_id()
     sql = "SELECT topicname FROM topics WHERE id=:t_id"
-    result = db.session.execute(sql, {"t_id":t_id})
+    result = db.session.execute(sql, {"t_id":topic_id()})
     name = result.fetchone()
     return name[0]
 

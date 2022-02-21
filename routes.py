@@ -1,3 +1,4 @@
+from itertools import count
 from app import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 import messages, users, topics, chains, validate
@@ -5,7 +6,8 @@ import messages, users, topics, chains, validate
 @app.route("/")
 def index():
     list = topics.get_list()
-    return render_template("index.html", topics=list, get_latest=messages.get_latest_message)
+    return render_template("index.html", topics=list, get_latest=messages.get_latest_message,
+    chain_count=topics.get_chain_count, message_count=topics.get_message_count)
 
 @app.route("/like/<int:id>", methods=["POST"])
 def like(id):

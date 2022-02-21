@@ -8,8 +8,6 @@ CREATE TABLE users (
 CREATE TABLE topics (
     id SERIAL PRIMARY KEY, 
     topicname TEXT UNIQUE,
-    chains INTEGER, 
-    messages INTEGER, 
     visible BOOLEAN);
 
 CREATE TABLE chains (
