@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request, redirect, url_for, flash
+from flask import jsonify, render_template, request, redirect, url_for, flash
 import messages, users, topics, chains, validate
 
 @app.route("/")
@@ -18,7 +18,7 @@ def testlike():
     if request.method == "POST":
         id = request.json['data']
         messages.add_like(id)
-        return('', 200)
+        return jsonify({'status':'success'}, 201)
 
 @app.route("/search")
 def search():

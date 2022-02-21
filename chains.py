@@ -20,6 +20,7 @@ def create_chain(chainname):
     db.session.commit()
     id = latest_chain_id()
     set_chain_id(id)
+    topics.update_chain_count()
     return True
 
 def latest_chain_id():
