@@ -18,9 +18,10 @@ Sovelluksen valmiit ominaisuudet:
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen. 
 - Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
 - Käyttäjä voi luoda alueelle uuden ketjun antamalla ketjun otsikon ja aloitusviestin sisällön.
-- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun.
-- Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. 
+- Käyttäjä voi kirjoittaa uuden viestin olemassa olevaan ketjuun. 
+- Käyttäjä voi muokata luomansa ketjun otsikkoa sekä lähettämänsä viestin sisältöä. Käyttäjä voi myös poistaa ketjun tai viestin.
 - Käyttäjä voi etsiä kaikki viestit, joiden osana on annettu sana.
 - Ylläpitäjä ja käyttäjä voivat lisätä aihealueita.
+- Ylläpitäjä voi muokata tai poistaa minkä tahansa aihealueen, ketjun tai viestin.
 
 **Sovellus on yksi Tietokantasovellus -kurssin esimerkkiaiheista ja sen perustana toimii materiaalista löytyvä esimerkkisovellus.**
