@@ -9,14 +9,13 @@ def index():
 
 @app.route("/like/<int:id>", methods=["POST"])
 def like(id):
-    chain_id=chains.chain_id()
     messages.add_like(id)
-    return redirect(url_for("chainarea", id=chain_id))
+    return redirect(url_for("chainarea", id=chains.chain_id()))
 
 @app.route("/testlike", methods=["POST"])
 def testlike():
     if request.method == "POST":
-        id = request.json['data']
+        print(request.get_json())
         messages.add_like(id)
         return jsonify({'status':'success'}, 201)
 
@@ -44,29 +43,24 @@ def newchain(id):
 
 @app.route("/updatechain/<int:id>")
 def updatechain(id):
-    topic_id = topics.topic_id()
-    return render_template("updatechain.html", id=id, t_id=topic_id)
+    return render_template("updatechain.html", id=id, t_id=topics.topic_id())
 
 @app.route("/updatemsg/<int:id>")
 def updatemsg(id):
-    c_id = chains.chain_id()
-    return render_template("updatemsg.html", id=id, c_id=c_id)
+    return render_template("updatemsg.html", id=id, c_id=chains.chain_id())
 
 @app.route("/topicarea/<int:id>")
 def topicarea(id):
     topics.set_topic_id(id)
-    header = topics.get_topic_name()
     list = chains.get_list()
-    return render_template("topicarea.html", count = len(list), chains=list, header=header, topic_id=id)
+    return render_template("topicarea.html", count = len(list), chains=list, header=topics.get_topic_name(), topic_id=id)
 
 @app.route("/chainarea/<int:id>")
 def chainarea(id):
     chains.set_chain_id(id)
-    header = chains.get_chain_name()
-    topic_id = topics.topic_id()
     list = messages.get_list()
     return render_template("chainarea.html", count = len(list), messages=list, 
-    t_id=topic_id, header=header, chain_id=id, get_likes=messages.get_likes)
+    t_id=topics.topic_id(), header=chains.get_chain_name(), chain_id=id, get_likes=messages.get_likes)
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
@@ -78,44 +72,40 @@ def sentopic():
 
 @app.route("/sendchain", methods=["POST"])
 def sendchain():
-    topic_id = topics.topic_id()
     name = request.form["chainname"]
     content = request.form["msg"]
     if not validate.chain(name) or not validate.msg(content): #täytyy tarkistaa jo tässä, ettei luo toista databaseen jos toinen ei ollekkaan validi
         flash("Otsikko tai aloitusviesti virheellinen")
-        return redirect(url_for("newchain", id=topic_id))
+        return redirect(url_for("newchain", id=topics.topic_id()))
     if chains.create_chain(name):
         if messages.send(content):
-            return redirect(url_for("topicarea", id=topic_id))
+            return redirect(url_for("topicarea", id=topics.topic_id()))
     flash("Ketjun luonti epäonnistui")
-    return redirect(url_for("newchain", id=topic_id))
+    return redirect(url_for("newchain", id=topics.topic_id()))
 
 @app.route("/sendmessage", methods=["POST"])
 def sendmessage():
-    chain_id = chains.chain_id()
     content = request.form["content"]
     if messages.send(content):
-        return redirect(url_for("chainarea", id=chain_id))
+        return redirect(url_for("chainarea", id=chains.chain_id()))
     flash("Viestin lähetys epäonnistui")
-    return redirect(url_for("newmessage", id=chain_id))
+    return redirect(url_for("newmessage", id=chains.chain_id()))
 
 @app.route("/setupdatechain/<int:id>", methods=["POST"])
 def setupdatechain(id):
-    topic_id = topics.topic_id()
     chainname = request.form["chainname"]
     if chains.updatechain(chainname, id):
         flash("Ketjun muokkaaminen onnistui")
-        return redirect(url_for("topicarea", id=topic_id))
+        return redirect(url_for("topicarea", id=topics.topic_id()))
     flash("Ketjun muokkaaminen epäonnistui")
     return redirect(url_for("updatechain", id=id))
 
 @app.route("/setupdatemsg/<int:id>", methods=["POST"])
 def setupdatemsg(id):
-    chain_id = chains.chain_id()
     content = request.form["content"]
     if messages.updatemsg(content, id):
         flash("Viestin muokkaaminen onnistui")
-        return redirect(url_for("chainarea", id=chain_id))
+        return redirect(url_for("chainarea", id=chains.chain_id()))
     flash("Viestin muokkaaminen epäonnistui")
     return redirect(url_for("updatechain", id=id))
 
@@ -144,12 +134,10 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-        usernames = users.get_usernames()
-        print(usernames)
         if password1 != password2:
             flash("Salasanat eroavat")
             return redirect("register")
-        if username in usernames:
+        if users.username_taken(username):
             flash("Käyttäjänimi on jo käytössä")
             return redirect("register")
         if users.register(username, password1):

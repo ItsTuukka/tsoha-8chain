@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 import validate
 
 def login(username, password):
-    sql = "SELECT id, password FROM users WHERE username=:username AND visible=TRUE"
+    sql = "SELECT id, password, admin FROM users WHERE username=:username AND visible=TRUE"
     result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
@@ -12,12 +12,14 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
+            session['admin'] = user.admin
             return True
         else:
             False
 
 def logout():
     del session["user_id"]
+    del session['admin']
 
 def register(username, password):
     if not validate.username(username) or not validate.password(password):
@@ -42,3 +44,9 @@ def get_usernames():
     for user in userdata:
         users.append(user[0])
     return users
+
+def username_taken(username):
+    users = get_usernames()
+    if username in users:
+        return True
+    return False
