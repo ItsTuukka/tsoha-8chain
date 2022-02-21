@@ -9,6 +9,21 @@ def index():
     return render_template("index.html", topics=list, get_latest=messages.get_latest_message,
     chain_count=topics.get_chain_count, message_count=topics.get_message_count)
 
+@app.route("/deltopic/<int:id>")
+def deltopic(id):
+    topics.delete(id)
+    return redirect("/")
+
+@app.route("/delchain/<int:id>")
+def delchain(id):
+    chains.delete(id)
+    return redirect(url_for("topicarea", id=topics.topic_id()))
+
+@app.route("/delmsg/<int:id>")
+def delmsg(id):
+    messages.delete(id)
+    return redirect(url_for("chainarea", id=chains.chain_id()))
+
 @app.route("/like/<int:id>", methods=["POST"])
 def like(id):
     messages.add_like(id)

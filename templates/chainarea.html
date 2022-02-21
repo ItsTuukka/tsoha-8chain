@@ -28,8 +28,8 @@ Viestien määrä: {{count}}
 <button onclick="addLike({{message[4]}})">like (does not work) </button>
 {% endif %}
 <p>
-{% if session.user_id == message[3] %}
-<a href="/updatemsg/{{message[4]}}">Muokkaa</a>
+{% if session.user_id == message[3] or session.admin == true %}
+<a href="/updatemsg/{{message[4]}}">Muokkaa</a> | <a href="/delmsg/{{message[4]}}">Poista</a>
 {% endif %}
 <hr>
 {% endfor %}

@@ -33,6 +33,11 @@ def get_topic_name():
     name = result.fetchone()
     return name[0]
 
+def delete(id):
+    sql = "UPDATE topics SET visible=FALSE WHERE id=:id"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+
 def set_topic_id(id):
     session['topic_id'] = id
 

@@ -8,7 +8,7 @@
     <p>
     {% else %}
     <p>Tälle aiheelle ei ole vielä ketjuja</p>
-    {% endif %}
+{% endif %}
 {% if message_count(topic[0]) > 0 %}
 <i>Viestejä: </i> {{ message_count(topic[0]) }}
 <p>
@@ -18,6 +18,10 @@
 <p>Tälle aiheelle ei ole vielä viestejä</p>
 {% endif %}
 <a href="/topicarea/{{topic[0]}}">Siirry alueelle</a>
+<p></p>
+{% if session.admin == true %}
+<a href="/deltopic/{{topic[0]}}">Poista</a>
+{% endif %}
 <hr>
 {% endfor %}
 <a href="/search">Haku</a>

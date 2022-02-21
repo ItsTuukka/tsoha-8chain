@@ -31,6 +31,11 @@ def updatemsg(content, id):
     except:
         return False
 
+def delete(id):
+    sql = "UPDATE messages SET visible=FALSE WHERE id=:id"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+
 def get_likes(msg_id):
     sql = "SELECT COUNT (*) FROM likes WHERE message_id=:msg_id"
     result = db.session.execute(sql, {"msg_id":msg_id})

@@ -12,14 +12,14 @@ def login(username, password):
     else:
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
-            session['admin'] = user.admin
+            session["admin"] = user.admin
             return True
         else:
             False
 
 def logout():
     del session["user_id"]
-    del session['admin']
+    del session["admin"]
 
 def register(username, password):
     if not validate.username(username) or not validate.password(password):

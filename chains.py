@@ -40,6 +40,17 @@ def updatechain(newname, id):
     except:
         return False
 
+def delete(id):
+    sql = "UPDATE chains SET visible=FALSE WHERE id=:id"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+    del_chain_messages(id)
+
+def del_chain_messages(id):
+    sql = "UPDATE messages SET visible=FALSE WHERE chain_id=:id"
+    db.session.execute(sql, {"id":id})
+    db.session.commit()
+
 def set_chain_id(id):
     session['chain_id'] = id
 

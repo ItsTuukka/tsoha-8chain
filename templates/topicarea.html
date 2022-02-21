@@ -19,10 +19,10 @@
 <p>
 <i>Luotu: </i> {{ chain[3].strftime("%Y-%m-%d %H:%M:%S") }}
 <p>
-{% if session.user_id == chain[4] %}
-<a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a> | <a href="/updatechain/{{chain[0]}}">Muokkaa</a>
-{% else %}
 <a href="/chainarea/{{chain[0]}}">Siirry ketjuun</a>
+<p></p>
+{% if session.user_id == chain[4] or session.admin == true %}
+<a href="/updatechain/{{chain[0]}}">Muokkaa</a> | <a href="/delchain/{{chain[0]}}">Poista</a>
 {% endif %}
 <hr>
 {% endfor %}
