@@ -1,4 +1,3 @@
-from itertools import count
 from app import app
 from flask import jsonify, render_template, request, redirect, url_for, flash
 import messages, users, topics, chains, validate
@@ -26,7 +25,8 @@ def delmsg(id):
 
 @app.route("/like/<int:id>", methods=["POST"])
 def like(id):
-    messages.add_like(id)
+    if not messages.add_like(id):
+        flash("Olet jo tykännyt kyseisestä viestistä")
     return redirect(url_for("chainarea", id=chains.chain_id()))
 
 @app.route("/testlike", methods=["POST"])

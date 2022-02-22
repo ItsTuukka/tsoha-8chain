@@ -43,9 +43,20 @@ def get_likes(msg_id):
     return likes[0]
     
 def add_like(msg_id):
+    if already_liked(msg_id):
+        return False
     sql = "INSERT INTO likes (message_id, user_id) VALUES (:msg_id, :user_id)"
     db.session.execute(sql, {"msg_id":msg_id, "user_id":users.user_id()})
     db.session.commit()
+    return True
+
+def already_liked(msg_id):
+    sql = "SELECT COUNT (*) FROM likes WHERE message_id=:msg_id AND user_id=:u_id"
+    result = db.session.execute(sql, {"msg_id":msg_id, "u_id":users.user_id()})
+    likes = result.fetchone()
+    if likes[0] != 0:
+        return True
+    return False
 
 def get_filtered_messages(filter):
     sql = "SELECT M.content, U.username, M.sent_at, M.chain_id, M.id FROM messages M, users U WHERE M.content LIKE :filter AND M.user_id=U.id AND M.visible=TRUE ORDER BY M.id"
