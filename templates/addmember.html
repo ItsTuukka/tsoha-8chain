@@ -1,0 +1,26 @@
+<h3>Lisää uusi jäsen</h3>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul class=flashes>
+    {% for message in messages %}
+    <strong>{{ message }}</strong> 
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+<form action="/validatemember/{{topic_id}}" method="POST" onsubmit="return check(this)">
+    Käyttäjänimi: <br>
+    <textarea name="username" rows="1" cols="30"></textarea>
+    <p>
+    <input type="submit" value="Lähetä">
+</form>
+<a href="/">Takaisin</a>
+<script>
+    function check(form) {
+        if (!form.username.value) {
+            alert("Käyttäjänimi ei voi olla tyhjä")
+            return false
+        }
+        return true
+    }
+</script>

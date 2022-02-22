@@ -8,6 +8,7 @@ CREATE TABLE users (
 CREATE TABLE topics (
     id SERIAL PRIMARY KEY, 
     topicname TEXT UNIQUE,
+    secret BOOLEAN, 
     visible BOOLEAN);
 
 CREATE TABLE chains (
@@ -30,4 +31,9 @@ CREATE TABLE messages (
 CREATE TABLE likes (
     message_id INTEGER REFERENCES messages, 
     user_id INTEGER REFERENCES users
-)
+);
+
+CREATE TABLE access (
+    topic_id INTEGER REFERENCES topics,
+    user_id INTEGER REFERENCES users
+);

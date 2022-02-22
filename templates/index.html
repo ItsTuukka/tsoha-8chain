@@ -1,5 +1,31 @@
 <h1>8-chain Etusivu</h1>
 <hr>
+{% for topic in secret_topics %}
+<i>Tämä on salainen alue</i>
+<p></p>
+<i>Aihe:</i> <b>{{ topic[1] }}</b>
+<p>
+{% if chain_count(topic[0]) > 0 %}
+    <i>Ketjuja: </i> {{ chain_count(topic[0]) }}
+    <p>
+    {% else %}
+    <p>Tälle aiheelle ei ole vielä ketjuja</p>
+{% endif %}
+{% if message_count(topic[0]) > 0 %}
+<i>Viestejä: </i> {{ message_count(topic[0]) }}
+<p>
+<i>Viimeisin: </i> {{ get_latest(topic[0]).strftime("%Y-%m-%d %H:%M:%S") }}
+<p>
+{% else %}
+<p>Tälle aiheelle ei ole vielä viestejä</p>
+{% endif %}
+<a href="/topicarea/{{topic[0]}}">Siirry alueelle</a>
+<p></p>
+{% if session.admin == true %}
+<a href="/addmember/{{topic[0]}}">Lisää käyttäjä</a> | <a href="/deltopic/{{topic[0]}}">Poista</a>
+{% endif %}
+<hr>
+{% endfor %}
 {% for topic in topics %}
 <i>Aihe:</i> <b>{{ topic[1] }}</b>
 <p>
@@ -24,11 +50,15 @@
 {% endif %}
 <hr>
 {% endfor %}
+{% if session.admin == true %}
+<a href="/newtopic">Luo uusi aihe</a> 
+{% endif %}
+<p></p>
 <a href="/search">Haku</a>
 <p></p>
 {% if session.user_id %}
 Olet kirjautunut sisään.
-<a href="/newtopic">Luo uusi aihe</a> | <a href="/logout">Kirjaudu ulos</a>
+<a href="/logout">Kirjaudu ulos</a>
 {% else %}
 <a href="/login">Kirjaudu sisään</a>
 {% endif %}

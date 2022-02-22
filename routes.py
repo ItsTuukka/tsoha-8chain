@@ -5,8 +5,22 @@ import messages, users, topics, chains, validate
 @app.route("/")
 def index():
     list = topics.get_list()
-    return render_template("index.html", topics=list, get_latest=messages.get_latest_message,
+    secret_list = topics.get_secret_list()
+    return render_template("index.html", topics=list, secret_topics=secret_list, get_latest=messages.get_latest_message,
     chain_count=topics.get_chain_count, message_count=topics.get_message_count)
+
+@app.route("/validatemember/<int:id>", methods=["POST"])
+def validatemember(id):
+    username = request.form["username"]
+    if topics.add_member(username, id):
+        flash("Käyttäjän lisääminen onnistui")
+        return redirect(url_for("addmember", id=id))
+    flash("Käyttäjän lisääminen epäonnistui")
+    return redirect(url_for("addmember", id=id))
+
+@app.route("/addmember/<int:id>")
+def addmember(id):
+    return render_template("addmember.html", topic_id=id)
 
 @app.route("/deltopic/<int:id>")
 def deltopic(id):
@@ -82,8 +96,13 @@ def chainarea(id):
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
     name = request.form["topicname"]
-    if topics.create_topic(name):
-        return redirect("/")
+    secret = request.form["secret"]
+    if secret == "false":
+        if topics.create_topic(name, False):
+            return redirect("/")
+    else:
+        if topics.create_topic(name, True):
+            return redirect("/")
     flash("Aiheen luonti epäonnistui")
     return redirect("/newtopic")
 

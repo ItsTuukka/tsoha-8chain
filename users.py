@@ -1,3 +1,4 @@
+from unittest import result
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -36,6 +37,9 @@ def register(username, password):
 def user_id():
     return session.get("user_id", 0)
 
+def user_admin():
+    return session.get("admin", False)
+
 def get_usernames():
     sql = "SELECT username from users WHERE visible = TRUE"
     result = db.session.execute(sql)
@@ -48,5 +52,19 @@ def get_usernames():
 def username_taken(username):
     users = get_usernames()
     if username in users:
+        return True
+    return False
+
+def id_from_username(name):
+    sql = "SELECT id FROM users WHERE username=:name"
+    result = db.session.execute(sql, {"name":name})
+    id = result.fetchone()
+    return id[0]
+
+def user_access(user_id, topic_id):
+    sql = "SELECT COUNT (*) FROM access WHERE topic_id=:topic_id AND user_id=:user_id"
+    result = db.session.execute(sql, {"topic_id":topic_id, "user_id":user_id})
+    access = result.fetchone()
+    if access[0] != 0:
         return True
     return False
