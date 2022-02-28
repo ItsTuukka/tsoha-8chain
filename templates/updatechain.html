@@ -3,6 +3,7 @@ Uusi otsikko: <br>
 <textarea name="chainname" rows="2" cols="30"></textarea>
 <p>
 <input type="submit" value="Muokkaa">
+<input type="hidden" name="csrf_token" value=""{{session.csrf_token}}>
 </form>
 <a href="/topicarea/{{t_id}}">Takaisin</a>
 <script>

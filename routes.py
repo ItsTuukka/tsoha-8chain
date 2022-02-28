@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, render_template, request, redirect, url_for, flash
+from flask import jsonify, render_template, request, redirect, url_for, flash, abort
 import messages, users, topics, chains, validate
 
 @app.route("/")
@@ -11,6 +11,8 @@ def index():
 
 @app.route("/validatemember/<int:id>", methods=["POST"])
 def validatemember(id):
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     username = request.form["username"]
     if topics.add_member(username, id):
         flash("Käyttäjän lisääminen onnistui")
@@ -95,6 +97,8 @@ def chainarea(id):
 
 @app.route("/sendtopic", methods=["POST"])
 def sentopic():
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     name = request.form["topicname"]
     secret = request.form["secret"]
     if secret == "false":
@@ -108,6 +112,8 @@ def sentopic():
 
 @app.route("/sendchain", methods=["POST"])
 def sendchain():
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     name = request.form["chainname"]
     content = request.form["msg"]
     if not validate.chain(name) or not validate.msg(content): #täytyy tarkistaa jo tässä, ettei luo toista databaseen jos toinen ei ollekkaan validi
@@ -121,6 +127,8 @@ def sendchain():
 
 @app.route("/sendmessage", methods=["POST"])
 def sendmessage():
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     content = request.form["content"]
     if messages.send(content):
         return redirect(url_for("chainarea", id=chains.chain_id()))
@@ -129,6 +137,8 @@ def sendmessage():
 
 @app.route("/setupdatechain/<int:id>", methods=["POST"])
 def setupdatechain(id):
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     chainname = request.form["chainname"]
     if chains.updatechain(chainname, id):
         flash("Ketjun muokkaaminen onnistui")
@@ -138,6 +148,8 @@ def setupdatechain(id):
 
 @app.route("/setupdatemsg/<int:id>", methods=["POST"])
 def setupdatemsg(id):
+    if users.csrf_token() != request.form["csrf_token"]:
+        abort(403)
     content = request.form["content"]
     if messages.updatemsg(content, id):
         flash("Viestin muokkaaminen onnistui")

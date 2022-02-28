@@ -1,8 +1,8 @@
-from unittest import result
 from db import db
 from flask import session
 from werkzeug.security import check_password_hash, generate_password_hash
 import validate
+import secrets
 
 def login(username, password):
     sql = "SELECT id, password, admin FROM users WHERE username=:username AND visible=TRUE"
@@ -14,6 +14,7 @@ def login(username, password):
         if check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["admin"] = user.admin
+            session["csrf_token"] = secrets.token_hex(16)
             return True
         else:
             False
@@ -39,6 +40,9 @@ def user_id():
 
 def user_admin():
     return session.get("admin", False)
+
+def csrf_token():
+    return session.get("csrf_token", None)
 
 def get_usernames():
     sql = "SELECT username from users WHERE visible = TRUE"

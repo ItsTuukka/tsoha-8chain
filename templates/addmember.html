@@ -13,6 +13,7 @@
     <textarea name="username" rows="1" cols="30"></textarea>
     <p>
     <input type="submit" value="Lähetä">
+    <input type="hidden" name="csrf_token" value=""{{session.csrf_token}}>
 </form>
 <a href="/">Takaisin</a>
 <script>
