@@ -14,6 +14,8 @@ Sovelluksen ominaisuuksia:
 
 Sovellus on testattavissa [Herokussa](https://tsoha-8chain.herokuapp.com/).
 
+Ohjaajalle admin [käyttäjä](https://github.com/ItsTuukka/tsoha-8chain/blob/main/user) testausta varten.
+
 Sovelluksen valmiit ominaisuudet:
 - Käyttäjä voi kirjautua sisään ja ulos sekä luoda uuden tunnuksen. 
 - Käyttäjä näkee sovelluksen etusivulla listan alueista sekä jokaisen alueen ketjujen ja viestien määrän ja viimeksi lähetetyn viestin ajankohdan.
