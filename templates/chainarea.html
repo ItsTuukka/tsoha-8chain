@@ -23,9 +23,8 @@ Viestien määrä: {{count}}
 <i>Tykkäykset: </i> {{ get_likes(message[4]) }}
 {% if session.user_id %}
 <form action="/like/{{message[4]}}" method="post">
-    <input type="submit" value="Tykkää (works)">
+    <input type="submit" value="Tykkää">
 </form>
-<button onclick="addLike({{message[4]}})">like (does not work) </button>
 {% endif %}
 <p>
 {% if session.user_id == message[3] or session.admin == true %}
@@ -39,14 +38,3 @@ Viestien määrä: {{count}}
 {% endif %}
 <p>
 <a href="/topicarea/{{t_id}}">Aihealueelle</a> | <a href="/">Etusivulle</a>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-    function addLike(id) {
-        $.ajax({
-            method: "POST",
-            url: "{{url_for('testlike')}}",
-            contentType: 'application/json;charset=UTF-8',
-            data: {'data':id}
-        })
-    }
-</script>

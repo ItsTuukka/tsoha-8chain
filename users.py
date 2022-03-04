@@ -22,6 +22,7 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["admin"]
+    del session["csrf_token"]
 
 def register(username, password):
     if not validate.username(username) or not validate.password(password):

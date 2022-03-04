@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, render_template, request, redirect, url_for, flash, abort
+from flask import render_template, request, redirect, url_for, flash, abort
 import messages, users, topics, chains, validate
 
 @app.route("/")
@@ -44,13 +44,6 @@ def like(id):
     if not messages.add_like(id):
         flash("Olet jo tykännyt kyseisestä viestistä")
     return redirect(url_for("chainarea", id=chains.chain_id()))
-
-@app.route("/testlike", methods=["POST"])
-def testlike():
-    if request.method == "POST":
-        print(request.get_json())
-        messages.add_like(id)
-        return jsonify({'status':'success'}, 201)
 
 @app.route("/search")
 def search():
