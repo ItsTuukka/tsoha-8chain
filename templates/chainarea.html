@@ -1,3 +1,7 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 <h2>Ketju: {{ header }}</h2>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -14,17 +18,23 @@
 Viestien määrä: {{count}}
 <hr>
 {% for message in messages %}
+<p>
 <i>Viesti: </i> {{ message[0] }}
+</p>
 <p>
 <i>Lähetäjä: </i> {{ message[1] }}
+</p>
 <p>
 <i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+</p>
 <p>
 <i>Tykkäykset: </i> {{ get_likes(message[4]) }}
+</p>
 {% if session.user_id %}
 <form action="/like/{{message[4]}}" method="post">
     <input type="submit" value="Tykkää">
 </form>
+<br>
 {% endif %}
 <p>
 {% if session.user_id == message[3] or session.admin == true %}

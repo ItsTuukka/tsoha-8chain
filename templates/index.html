@@ -1,21 +1,29 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
 <h1>8-chain Etusivu</h1>
 <hr>
 {% for topic in secret_topics %}
 <i>Tämä on salainen alue</i>
-<p></p>
-<i>Aihe:</i> <b>{{ topic[1] }}</b>
 <p>
+<i>Aihe:</i> <b>{{ topic[1] }}</b>
+</p>
 {% if chain_count(topic[0]) > 0 %}
+<p>
     <i>Ketjuja: </i> {{ chain_count(topic[0]) }}
-    <p>
+</p>
     {% else %}
     <p>Tälle aiheelle ei ole vielä ketjuja</p>
 {% endif %}
 {% if message_count(topic[0]) > 0 %}
+<p>
 <i>Viestejä: </i> {{ message_count(topic[0]) }}
+</p>
 <p>
 <i>Viimeisin: </i> {{ get_latest(topic[0]).strftime("%Y-%m-%d %H:%M:%S") }}
-<p>
+</p>
 {% else %}
 <p>Tälle aiheelle ei ole vielä viestejä</p>
 {% endif %}
@@ -27,19 +35,23 @@
 <hr>
 {% endfor %}
 {% for topic in topics %}
-<i>Aihe:</i> <b>{{ topic[1] }}</b>
 <p>
+<i>Aihe:</i> <b>{{ topic[1] }}</b>
+</p>
 {% if chain_count(topic[0]) > 0 %}
+<p>
     <i>Ketjuja: </i> {{ chain_count(topic[0]) }}
-    <p>
+</p>
     {% else %}
     <p>Tälle aiheelle ei ole vielä ketjuja</p>
 {% endif %}
 {% if message_count(topic[0]) > 0 %}
+<p>
 <i>Viestejä: </i> {{ message_count(topic[0]) }}
+</p>
 <p>
 <i>Viimeisin: </i> {{ get_latest(topic[0]).strftime("%Y-%m-%d %H:%M:%S") }}
-<p>
+</p>
 {% else %}
 <p>Tälle aiheelle ei ole vielä viestejä</p>
 {% endif %}

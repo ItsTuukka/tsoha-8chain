@@ -1,17 +1,26 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
 {% if count == 0 %}
 <p>Tällä hakusanalla ei löytynyt yhään viestiä</p>
 {% else %}
 Viestien määrä: {{count}}
 <hr>
 {% for message in messages %}
+<p>
 <i>Viesti: </i> {{ message[0] }}
+</p>
 <p>
 <i>Lähetäjä: </i> {{ message[1] }}
+</p>
 <p>
 <i>Aika: </i> {{ message[2].strftime("%Y-%m-%d %H:%M:%S") }}
+</p>
 <p>
 <i>Tykkäykset: </i> {{ get_likes(message[4]) }}
-<p>
+</p>
 <a href="/chainarea/{{message[3]}}">Siirry ketjuun</a>
 <hr>
 {% endfor %}
